@@ -1,18 +1,26 @@
-import * as React from "react";
-import { useContext } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import Bottom from "../bottom/Bottom";
-import { CategoryContext } from "../context/Context";
 
 const Nature = () => {
-    const [category] = useContext(CategoryContext);
+
+  const [natu, setNatu] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("https://blogbackendapp.herokuapp.com/api/blog")
+      .then((res) => {
+        setNatu(res.data);
+      });
+  }, []);
   
     return (
       <div>
         <h1 className="tollyh">Tourism</h1>
         
-        {category.filter((render)=>render.id>12&&render.id<17).map((wood) => (
-          <div key={category.imgt} className="tolly">
+        {natu.filter((render)=>render.id>12&&render.id<17).map((wood) => (
+          <div key={natu.imgt} className="tolly">
             <Link to={`/nature/${wood.id}`} className="tolly">
               <div className="tollyi"><img src={wood.img} alt="" /></div>
               <h3 className="tollyt">{wood.det}</h3>

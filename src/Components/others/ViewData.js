@@ -1,17 +1,27 @@
-import React, { useContext,useEffect, useState } from 'react'
-import Bottom from '../bottom/Bottom'
-import Footer from '../footer/Footer'
-import { useParams } from 'react-router-dom'
-import { CategoryContext } from '../context/Context'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Footer from "../footer/Footer";
+import Bottom from "../bottom/Bottom";
+import { useParams } from "react-router-dom";
+
 
 const ViewData = () => {
+
+  const [foo, setFoo] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("https://blogbackendapp.herokuapp.com/api/blog")
+      .then((res) => {
+        setFoo(res.data);
+      });
+  }, []);
     const {id} =useParams();
-    const[category]=useContext(CategoryContext);
     const[dataa,setDataa] =useState({ img:"",det:"",date:"",description:"",category:""})
 
 
     useEffect(() => {
-        category.forEach((view)=>{
+        foo.forEach((view)=>{
             if(view.id===id){
                 console.log("Matched Param");
                 setDataa({
